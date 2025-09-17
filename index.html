@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FSILAB - AI-Powered Crypto Investing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Orbitron:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0BFEE1;
+            --primary-dark: #0BFEE1;
+            --primary-darker: #0BFEE1;
+            --secondary: #0BFEE1;
+            --accent: #06b6d4;
+            --accent-light: #22d3ee;
+            --dark: #0f172a;
+            --darker: #020617;
+            --darkest: #010510;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --gray-light: #cbd5e1;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-alt: 'Plus Jakarta Sans', sans-serif;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --glow: 0 0 20px rgba(59, 130, 246, 0.4);
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--light);
+            background-color: var(--darkest);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(17, 24, 39, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 25%);
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: var(--font-alt);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: var(--glow);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5);
+        }
+        
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+            transform: rotate(30deg);
+            transition: var(--transition);
+            opacity: 0;
+        }
+        
+        .btn-primary:hover::after {
+            opacity: 1;
+            animation: shine 1.5s infinite;
+        }
+        
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) rotate(30deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(30deg);
+            }
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-outline:hover {
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .btn-outline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: var(--primary);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .btn-outline:hover::before {
+            width: 100%;
+        }
+        
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+            background: rgba(2, 6, 23, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        header.scrolled {
+            padding: 15px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(2, 6, 23, 0.95);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo span {
+            color: var(--primary);
+            position: relative;
+        }
+        
+        .logo span::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            font-size: 15px;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 100px;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 20%, rgba(37, 99, 235, 0.15), transparent 40%);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 650px;
+        }
+        
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--gray-light);
+            font-weight: 400;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .hero-email {
+            display: flex;
+            max-width: 450px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .hero-email input {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            background: transparent;
+            color: white;
+            font-family: var(--font-body);
+        }
+        
+        .hero-email input::placeholder {
+            color: var(--gray);
+        }
+        
+        .hero-email button {
+            border-radius: 0;
+            padding: 16px 25px;
+            border: none;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .hero-disclaimer {
+            font-size: 0.8rem;
+            color: var(--gray);
+            max-width: 500px;
+        }
+        
+        .hero-visual {
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: 600px;
+            z-index: 1;
+            opacity: 0.8;
+        }
+        
+        /* Sections Common */
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(to right, #fff, var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        /* Stats Section */
+        .stats {
+            background: var(--darker);
+            padding: 80px 0;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 30px;
+            background: rgba(15, 23, 42, 0.3);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            color: var(--gray-light);
+            font-size: 1rem;
+        }
+        
+        /* Expertise Section */
+        .expertise {
+            background: var(--darkest);
+        }
+        
+        .expertise-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .expertise-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .rotating-element {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .rotating-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            animation: rotate 15s linear infinite;
+        }
+        
+        .rotating-ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            border-color: var(--secondary);
+            border-left-color: transparent;
+            border-right-color: transparent;
+            animation: rotateReverse 12s linear infinite;
+        }
+        
+        .rotating-ring:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            border-color: var(--accent);
+            border-left-color: transparent;
+            border-right-color: transparent;
+            animation: rotate 10s linear infinite;
+        }
+        
+        .rotating-number {
+            font-family: var(--font-heading);
+            font-size: 100px;
+            font-weight: 700;
+            color: var(--primary);
+            position: relative;
+            z-index: 2;
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes rotateReverse {
+            0% {
+                transform: rotate(360deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+        
+        .expertise-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .expertise-item {
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+            background: rgba(15, 23, 42, 0.2);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+        
+        .expertise-item:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        .expertise-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .expertise-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .expertise-text p {
+            color: var(--gray-light);
+        }
+        
+        /* Allocate Section */
+        .allocate {
+            text-align: center;
+            background: var(--darker);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .allocate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(37, 99, 235, 0.1), transparent 60%);
+        }
+        
+        .allocate-content {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .allocate-title {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-family: var(--font-heading);
+        }
+        
+        .allocate-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray-light);
+            margin-bottom: 40px;
+        }
+        
+        /* Pillars Section */
+        .pillars {
+            background: var(--darkest);
+        }
+        
+        .pillars-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .pillar {
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.3), rgba(2, 6, 23, 0.5));
+            border-radius: 16px;
+            padding: 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pillar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 0;
+        }
+        
+        .pillar:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+        
+        .pillar:hover::before {
+            opacity: 0.05;
+        }
+        
+        .pillar-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .pillar-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .pillar-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .pillar-features {
+            margin-top: 20px;
+        }
+        
+        .pillar-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--gray-light);
+        }
+        
+        .pillar-feature i {
+            color: var(--primary);
+        }
+        
+        /* Strategies Section */
+        .strategies {
+            background: var(--darker);
+        }
+        
+        .strategies-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .strategies-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .strategy {
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.3), rgba(2, 6, 23, 0.5));
+            border-radius: 16px;
+            padding: 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .strategy:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+        
+        .strategy-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .strategy-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .strategy-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .strategy-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .stat {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .strategy-desc {
+            color: var(--gray-light);
+            margin-bottom: 20px;
+        }
+        
+        /* Testimonials Section */
+        .testimonials {
+            background: var(--darkest);
+            text-align: center;
+        }
+        
+        .testimonials-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .testimonial {
+            background: rgba(15, 23, 42, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+        
+        .testimonial:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        .testimonial-text {
+            color: var(--gray-light);
+            font-style: italic;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .testimonial-text::before,
+        .testimonial-text::after {
+            content: '"';
+            font-size: 3rem;
+            color: var(--primary);
+            opacity: 0.3;
+            position: absolute;
+        }
+        
+        .testimonial-text::before {
+            top: -20px;
+            left: -10px;
+        }
+        
+        .testimonial-text::after {
+            bottom: -40px;
+            right: -10px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .author-details {
+            text-align: left;
+        }
+        
+        .author-name {
+            font-weight: 600;
+            color: white;
+        }
+        
+        .author-role {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* Partners Section */
+        .partners {
+            text-align: center;
+            background: var(--darker);
+        }
+        
+        .partners-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .partners-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-family: var(--font-heading);
+        }
+        
+        .partners-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            background: var(--darkest);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .faq-item:hover {
+            border-color: var(--primary);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+            color: var(--gray-light);
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 300px;
+        }
+        
+        .faq-item.active .faq-toggle i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-toggle {
+            transition: var(--transition);
+        }
+        
+        /* CTA Section */
+        .cta {
+            text-align: center;
+            background: var(--darker);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 50%, rgba(37, 99, 235, 0.15), transparent 60%);
+        }
+        
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-family: var(--font-heading);
+        }
+        
+        .cta-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray-light);
+            margin-bottom: 40px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--darkest);
+            padding: 80px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            color: white;
+        }
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--gradient);
+        }
+        
+        .newsletter p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            background: transparent;
+            color: white;
+        }
+        
+        .newsletter-form button {
+            padding: 0 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .newsletter-form button:hover {
+            background: var(--primary-dark);
+        }
+        
+        .newsletter-note {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: var(--gray);
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .contact-info {
+            color: var(--gray);
+        }
+        
+        .contact-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .legal-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .legal-links a {
+            color: var(--gray);
+            transition: var(--transition);
+        }
+        
+        .legal-links a:hover {
+            color: white;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .floating {
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .hero-visual {
+                width: 500px;
+                height: 500px;
+                right: -80px;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .expertise-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .pillars-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .testimonials-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero {
+                text-align: center;
+                padding-top: 150px;
+            }
+            
+            .hero-content {
+                margin: 0 auto;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .hero-email {
+                flex-direction: column;
+                background: transparent;
+                border: none;
+            }
+            
+            .hero-email input {
+                border-radius: 8px;
+                margin-bottom: 10px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .hero-email button {
+                border-radius: 8px;
+                border-left: none;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .hero-visual {
+                display: none;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .strategies-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonials-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .pillars-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .legal-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">FSI<span>LAB</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Track Records</a></li>
+                    <li><a href="#">Our Approach</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Insights</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline">Login</button>
+                <button style="color: black;" class="btn btn-primary">Register</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Smarter Crypto Trading with Automated Systems</h1>
+                <p class="hero-subtitle">AI-powered trading bots designed to help investors in their 40s and 50s grow their crypto assets securely and efficiently.</p>
+                <div class="hero-buttons">
+                    <button style="color: black;" class="btn btn-primary">View Track Record</button>
+                    <button class="btn btn-outline">Explore Our Approach</button>
+                </div>
+                <div class="hero-email">
+                    <input type="email" placeholder="Enter your email">
+                    <button style="color: black;" class="btn btn-primary">Sign Up</button>
+                </div>
+                <p class="hero-disclaimer">Past results are not guarantees; crypto trading is risky, results may change, and some metrics are gross of fees.</p>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="300" cy="300" r="200" stroke="rgba(59, 130, 246, 0.3)" stroke-width="2" fill="none"/>
+                <circle cx="300" cy="300" r="250" stroke="rgba(139, 92, 246, 0.3)" stroke-width="2" fill="none"/>
+                <path d="M300,100 C450,150 450,450 300,500 C150,450 150,150 300,100" stroke="rgba(6, 182, 212, 0.3)" stroke-width="2" fill="none"/>
+                <circle cx="300" cy="300" r="80" fill="rgba(59, 130, 246, 0.1)" class="floating"/>
+                <path d="M200,300 A100,100 0 1,0 400,300 A100,100 0 1,0 200,300" fill="none" stroke="rgba(59, 130, 246, 0.5)" stroke-width="2" class="floating" style="animation-duration: 8s;">
+            </svg>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">$2.1B+</div>
+                    <div class="stat-label">Assets Traded</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98.7%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15K+</div>
+                    <div class="stat-label">Satisfied Clients</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise Section -->
+    <section class="expertise">
+        <div class="container expertise-container">
+            <div class="expertise-visual">
+                <div class="rotating-element">
+                    <div class="rotating-ring"></div>
+                    <div class="rotating-ring"></div>
+                    <div class="rotating-ring"></div>
+                    <div class="rotating-number">20</div>
+                </div>
+            </div>
+            <div class="expertise-content">
+                <h2 class="section-title">20 Years of Empowering Partners</h2>
+                <div class="expertise-item">
+                    <div class="expertise-icon">
+                        <i style="color: black;" class="fas fa-medal"></i>
+                    </div>
+                    <div class="expertise-text">
+                        <h3>Expertise & Credibility</h3>
+                        <p>Backed by FSI Group's long history in regulated trading and investment management.</p>
+                    </div>
+                </div>
+                <div class="expertise-item">
+                    <div class="expertise-icon">
+                        <i style="color: black;" class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="expertise-text">
+                        <h3>Innovation & Research</h3>
+                        <p>Developing next-generation trading strategies to thrive in dynamic markets.</p>
+                    </div>
+                </div>
+                <div class="expertise-item">
+                    <div class="expertise-icon">
+                        <i style="color: black;" class="fas fa-cogs"></i>
+                    </div>
+                    <div class="expertise-text">
+                        <h3>Execution & Reliability</h3>
+                        <p>Proven infrastructure engineered for speed, stability, and precision at scale.</p>
+                    </div>
+                </div>
+                <button class="btn btn-outline">Learn more about FSI</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Allocate Section -->
+    <section class="allocate">
+        <div class="container">
+            <div class="allocate-content">
+                <h2 class="allocate-title">Allocate with Clarity</h2>
+                <p class="allocate-subtitle">Easy to Start, Built to Last. From your first trade to lasting success, we make every step secure and simple.</p>
+                <button style="color: black;" class="btn btn-primary">Get Started</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pillars Section -->
+    <section class="pillars">
+        <div class="container">
+            <h2 class="section-title">Our Three Pillars</h2>
+            <div class="pillars-container">
+                <div class="pillar">
+                    <div class="pillar-content">
+                        <div class="pillar-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="pillar-title">System Optimization for Continuous Trading Excellence</h3>
+                        <p>Building the Strong Foundation of Crypto Trading</p>
+                        <div class="pillar-features">
+                            <div class="pillar-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Algorithmic Trading</span>
+                            </div>
+                            <div class="pillar-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Quantitative Analysis</span>
+                            </div>
+                            <div class="pillar-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Backtesting</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-content">
+                        <div class="pillar-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="pillar-title">Execution & Integration for Precision Performance</h3>
+                        <p>Seamless execution across multiple exchanges</p>
+                        <div class="pillar-features">
+                            <div class="pillar-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Seamless Connectivity</span>
+                            </div>
+                            <div class="pillar-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Robust Infrastructure</span>
+                            </div>
+                            <div class="pillar-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Precision Execution</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline" style="margin-top: 20px;">Learn more</button>
+                    </div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-content">
+                        <div class="pillar-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3 class="pillar-title">Research & Innovation Driving Future Strategies</h3>
+                        <p>Staying ahead of market trends with cutting-edge research</p>
+                        <div class="pillar-features">
+                            <div class="pillar-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Modeling & Forecasting</span>
+                            </div>
+                            <div class="pillar-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Resilience & Adaptation</span>
+                            </div>
+                            <div class="pillar-feature">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Integration</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline" style="margin-top: 20px;">Learn more</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Strategies Section -->
+    <section class="strategies">
+        <div class="container">
+            <h2 class="section-title">Build Your Mix: Strategies for All Partners</h2>
+            <div class="strategies-container">
+                <div class="strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-icon" style="background: rgba(59, 130, 246, 0.2); color: var(--primary);">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="strategy-name">Anchor</h3>
+                    </div>
+                    <div class="strategy-stats">
+                        <div class="stat" style="color: var(--success);">~0.10%/day</div>
+                        <div class="stat">Low risk (MDD < 10%)</div>
+                    </div>
+                    <p class="strategy-desc">Stable in any market. For steady hands and capital preservation.</p>
+                </div>
+                <div class="strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-icon" style="background: rgba(16, 185, 129, 0.2); color: var(--success);">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3 class="strategy-name">Steady</h3>
+                    </div>
+                    <div class="strategy-stats">
+                        <div class="stat" style="color: var(--success);">~0.20%/day</div>
+                        <div class="stat">Moderate risk (MDD < 40%)</div>
+                    </div>
+                    <p class="strategy-desc">Balanced growth. For consistent growth with manageable swings.</p>
+                </div>
+                <div class="strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-icon" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="strategy-name">Turbo</h3>
+                    </div>
+                    <div class="strategy-stats">
+                        <div class="stat" style="color: var(--warning);">~0.50%/day</div>
+                        <div class="stat">Higher risk (MDD < 80%)</div>
+                    </div>
+                    <p class="strategy-desc">High-octane upside. For bold investors chasing big gains.</p>
+                </div>
+                <div class="strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-icon" style="background: rgba(239, 68, 68, 0.2); color: var(--danger);">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h3 class="strategy-name">Blaze</h3>
+                    </div>
+                    <div class="strategy-stats">
+                        <div class="stat" style="color: var(--danger);">~1.00%/day</div>
+                        <div class="stat">Roller coaster</div>
+                    </div>
+                    <p class="strategy-desc">Fast compounding. For thrill-seekers ready for wild rides.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <button style="color: black;" class="btn btn-primary">View Full Track Record →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 style="margin-right: 37pc;" class="section-title">What Our Partners Say</h2>
+            <div class="testimonials-container">
+                <div class="testimonial">
+                    <p class="testimonial-text">FSI Lab's automated systems have transformed how I approach crypto investing. The steady returns have exceeded my expectations.</p>
+                    <div class="testimonial-author">
+                        <div style="color: black;" class="author-avatar">JD</div>
+                        <div class="author-details">
+                            <div class="author-name">James Donovan</div>
+                            <div class="author-role">Investor since 2021</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">As someone new to crypto, I appreciated the simplicity and security FSI Lab offers. Their team makes complex investing accessible.</p>
+                    <div class="testimonial-author">
+                        <div style="color: black;" class="author-avatar">MR</div>
+                        <div class="author-details">
+                            <div class="author-name">Michelle Roberts</div>
+                            <div class="author-role">Investor since 2022</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">The transparency and regular updates give me confidence that my investments are in good hands. Performance has been consistently strong.</p>
+                    <div class="testimonial-author">
+                        <div style="color: black;" class="author-avatar">TP</div>
+                        <div class="author-details">
+                            <div class="author-name">Thomas Parker</div>
+                            <div class="author-role">Investor since 2020</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="partners">
+        <div class="container">
+            <div class="partners-content">
+                <h2 class="partners-title">Partners Access</h2>
+                <p>Want to access detailed reports, live dashboards, and start allocating your coins? Access is restricted to approved partners and collaborators.</p>
+                <div class="partners-buttons">
+                    <button style="color: black;" class="btn btn-primary">Sign in →</button>
+                    <button class="btn btn-outline">Sign up →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How does FSI Lab's AI trading work?</span>
+                        <div class="faq-toggle"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our AI-powered trading bots analyze market data in real-time, identifying patterns and executing trades based on sophisticated algorithms. The system continuously learns and adapts to market conditions to optimize performance.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is the minimum investment required?</span>
+                        <div class="faq-toggle"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We have options for various investment levels. Our starter plans begin with as little as $5,000, while our premium strategies have higher minimums to access more advanced features and personalized support.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How secure is my investment?</span>
+                        <div class="faq-toggle"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Security is our top priority. We use institutional-grade custody solutions, multi-signature wallets, and comprehensive insurance coverage. All systems are regularly audited and employ the latest encryption technologies.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I withdraw my funds at any time?</span>
+                        <div class="faq-toggle"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer flexible withdrawal options. Most requests are processed within 24-48 hours. Certain strategies may have specific lock-up periods which are clearly communicated before investment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Transform Your Crypto Investing?</h2>
+                <p class="cta-subtitle">Join hundreds of investors who trust FSI Lab to grow their digital assets with cutting-edge AI technology.</p>
+                <button style="color: black;" class="btn btn-primary">Get Started Today</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col newsletter">
+                    <h3>Subscribe to Our Newsletter</h3>
+                    <p>Stay updated with latest insights, strategy updates, and FSI Lab news.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Your email address">
+                        <button style="color: black;">Subscribe</button>
+                    </div>
+                    <p class="newsletter-note">We respect your privacy — no spam, ever.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Approach</a></li>
+                        <li><a href="#">Track Record</a></li>
+                        <li><a href="#">Insights & News</a></li>
+                        <li><a href="#">Partner Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-building"></i> FSI Lab — New York Office</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 40 Wall Street, 28th Floor<br>New York, NY 10005</p>
+                        <p><i class="fas fa-phone"></i> +1 855 630 2139</p>
+                        <p><i class="fas fa-envelope"></i> hi@fsiprime.com</p>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Disclaimer</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 15px;">FSI Lab is a trade name of FSICP Limited. Past results are not guaranteed. Crypto trading involves substantial risk. All performance shown is illustrative and may be unaudited. Allocation examples are educational only and do not represent recommendations.</p>
+                    <div class="legal-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Risk Disclosure</a>
+                        <a href="#">Terms of Use</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 FSICP Limited. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Risk Disclosure</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // FAQ toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Simple animation for elements when they come into view
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stat-item, .expertise-item, .pillar, .strategy, .testimonial').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
